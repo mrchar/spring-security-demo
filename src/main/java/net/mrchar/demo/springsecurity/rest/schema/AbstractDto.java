@@ -7,7 +7,6 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -17,7 +16,7 @@ public abstract class AbstractDto {
   private String lastModifiedBy;
   private ZonedDateTime lastModifiedDate;
 
-  protected AbstractDto(AbstractAuditable<LocalUser, UUID> entity) {
+  protected AbstractDto(AbstractAuditable<LocalUser, Long> entity) {
     entity.getCreatedBy().ifPresent(item -> this.createdBy = item.getName());
 
     entity

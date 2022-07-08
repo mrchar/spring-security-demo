@@ -2,6 +2,7 @@ package net.mrchar.demo.springsecurity.configurtion;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -12,6 +13,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfiguration {
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -19,7 +21,7 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     // 所有请求都需要身份认证
     http.authorizeHttpRequests(
         (authorize) -> {

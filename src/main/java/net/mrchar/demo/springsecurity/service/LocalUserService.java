@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.security.RolesAllowed;
+
 @Service
 public class LocalUserService implements UserDetailsService {
   private final LocalUserRepository localUserRepository;
@@ -25,6 +27,7 @@ public class LocalUserService implements UserDetailsService {
    * @param pageable 分页排序
    * @return 用户列表
    */
+  @RolesAllowed({"ROLE_ADMIN"})
   public Page<LocalUser> listAllLocalUsers(Pageable pageable) {
     return this.localUserRepository.findAll(pageable);
   }

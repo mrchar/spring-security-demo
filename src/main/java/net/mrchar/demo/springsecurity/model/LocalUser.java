@@ -7,19 +7,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Collection;
-import java.util.UUID;
+import java.util.Set;
 
 @Getter
 @Entity
 @Table(name = "local_user")
 @EntityListeners(AuditingEntityListener.class)
-public class LocalUser extends AbstractAuditable<LocalUser, UUID> implements UserDetails {
+public class LocalUser extends AbstractAuditable<LocalUser, Long> implements UserDetails {
   @Setter
   @Column(name = "name", unique = true)
   private String name;
@@ -27,6 +23,14 @@ public class LocalUser extends AbstractAuditable<LocalUser, UUID> implements Use
   @Setter
   @Column(name = "password")
   private String password;
+
+  @Setter
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "rel_local_user_local_role",
+      joinColumns = @JoinColumn(name = "local_user_id"),
+      inverseJoinColumns = @JoinColumn(name = "local_role_id"))
+  private Set<LocalRole> roles;
 
   public LocalUser() {}
 
@@ -39,9 +43,15 @@ public class LocalUser extends AbstractAuditable<LocalUser, UUID> implements Use
     this.password = password;
   }
 
+  public LocalUser(String name, String password, Set<LocalRole> roles) {
+    this.name = name;
+    this.password = password;
+    this.roles = roles;
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return new ArrayList<>();
+    return this.roles;
   }
 
   @Override
