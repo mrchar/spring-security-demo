@@ -5,6 +5,7 @@ import net.mrchar.demo.springsecurity.model.LocalUser;
 import net.mrchar.demo.springsecurity.repository.LocalUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,6 +39,7 @@ public class LocalUserService implements UserDetailsService {
    * @param name 用户名
    * @return 用户信息
    */
+  @PreAuthorize("hasRole('ROLE_ADMIN') or #name == authentication.principal.username")
   public LocalUser getLocalUser(String name) {
     return localUserRepository
         .findByName(name)
@@ -54,6 +56,7 @@ public class LocalUserService implements UserDetailsService {
    * @param password 密码
    * @return 用户信息
    */
+  @RolesAllowed({"ROLE_ADMIN"})
   @Transactional
   public LocalUser addLocalUser(String name, String password) {
     LocalUser localUser = new LocalUser(name, password);
@@ -65,6 +68,7 @@ public class LocalUserService implements UserDetailsService {
    *
    * @param name 用户名
    */
+  @PreAuthorize("hasRole('ROLE_ADMIN') or #name == authentication.principal.username")
   @Transactional
   public void deleteLocalUser(String name) {
     this.localUserRepository.deleteByName(name);
