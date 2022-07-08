@@ -1,4 +1,4 @@
-package net.mrchar.demo.springsecurity.rest.model;
+package net.mrchar.demo.springsecurity.rest.schema;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

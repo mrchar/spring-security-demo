@@ -1,4 +1,4 @@
-package net.mrchar.demo.springsecurity.rest.model;
+package net.mrchar.demo.springsecurity.rest.schema;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
