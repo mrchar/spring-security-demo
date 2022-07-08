@@ -2,21 +2,24 @@ package net.mrchar.demo.springsecurity.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 @Getter
 @Entity
 @Table(name = "local_user")
-public class LocalUser implements UserDetails {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
+@EntityListeners(AuditingEntityListener.class)
+public class LocalUser extends AbstractAuditable<LocalUser, UUID> implements UserDetails {
   @Setter
   @Column(name = "name", unique = true)
   private String name;
@@ -26,6 +29,10 @@ public class LocalUser implements UserDetails {
   private String password;
 
   public LocalUser() {}
+
+  public LocalUser(String name) {
+    this.name = name;
+  }
 
   public LocalUser(String name, String password) {
     this.name = name;
