@@ -15,3 +15,4 @@ Spring Security 是Spring官方出品的安全框架。
 4. [演示项目](https://github.com/spring-projects/spring-security-samples)
 5. [江南一点雨文章](https://www.cnblogs.com/lenve/p/11242055.html)
 6. [码农小胖哥文章](https://www.cnblogs.com/felordcn/p/15922976.html)
+7. [代码萌动](https://www.codedemo.club/security-spring/)
